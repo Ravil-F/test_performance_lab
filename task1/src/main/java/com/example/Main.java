@@ -28,8 +28,12 @@ public class Main {
     public static String res(int[] array, int n, int m) {
         StringBuilder path = new StringBuilder();
         int tmp = 0;
+        int[] flag = new int[n];
 
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i < n; i++) {
+            if(flag[tmp] == 1) break;
+
+            flag[tmp] = 1;
             path.append((array[tmp]));
 
             tmp = (tmp + m - 1) % n;
