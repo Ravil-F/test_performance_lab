@@ -7,15 +7,16 @@ public class Main {
     public static void main(String[] args) {
         String file1 = scanPaths();
         String file2 = scanPaths();
-        System.out.println(file1 + file2);
 
         int[] cetner = new int[2];
         int[] radius = new int[2];
         scanFile(file1, cetner, radius);
+
         for(int i = 0; i < 2; i++){
-            System.out.println("center[" + i + "] = " + cetner[i] +
-                                "radius[" + i+ "] = " + radius[i]);
+            System.out.println("center[" + i + "] = " + cetner[i]
+                                + " radius[" + i + "] = " + radius[i]);
         }
+
     }
 
     public static String scanPaths(){
@@ -40,11 +41,13 @@ public class Main {
         try(Scanner scanner = new Scanner(new File(path))){
             String line1 = scanner.nextLine();
             String line2 = scanner.nextLine();
-            String[] res1 = line1.split(" ");
-            String[] res2 = line2.split(" ");
+            if(!line1.isEmpty() && !line2.isEmpty()) {
+                String[] res1 = line1.split(" ");
+                String[] res2 = line2.split(" ");
 
-            center = toLineInNumber(center, res1);
-            radius  = toLineInNumber(radius, res2);
+                center = toLineInNumber(center, res1);
+                radius = toLineInNumber(radius, res2);
+            }
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());;
@@ -53,7 +56,11 @@ public class Main {
 
     private static int[] toLineInNumber(int[] array, String[] line){
         for(int i = 0; i < 2; i++){
-            array[i] = Integer.parseInt(line[i]);
+            try {
+                array[i] = Integer.parseInt(line[i]);
+            }catch (NumberFormatException e){
+                System.out.println("Error number format exceprion: " + e.getMessage());
+            }
         }
         return array;
     }
