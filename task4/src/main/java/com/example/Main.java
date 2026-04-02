@@ -27,8 +27,10 @@ public class Main {
             Scanner in = new Scanner(System.in);
             url = in.nextLine();
             File file = new File(url);
-            if(file.exists() && file.isFile())
+            if(file.exists() && file.isFile()) {
                 flag = false;
+                in.close();
+            }
             else
                 System.out.println("The entered file path is incorrect");
 
@@ -40,10 +42,21 @@ public class Main {
     public static List<Integer> parserFile(String url){
         List<Integer> arr = new ArrayList<>();
         try(Scanner in = new Scanner(new File(url))){
-            while (in.hasNextInt())
-                arr.add(in.nextInt());
+            while (in.hasNextLine()) {
+                String tmp = in.nextLine().trim();
+                if (!tmp.isEmpty()) {
+                    String[] lines = tmp.split(" ");
+                    for (String line : lines) {
+                        try {
+                            arr.add(Integer.parseInt(line));
+                        } catch (NumberFormatException e) {
+                            System.out.println("Error number format exception: " + e.getMessage());
+                        }
+                    }
+                }
+            }
         }catch (Exception e){
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error exception: " + e.getMessage());
         }
         return arr;
     }
