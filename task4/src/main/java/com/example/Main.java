@@ -10,6 +10,10 @@ public class Main {
         String url = scanUrl();
         List<Integer> arr = new ArrayList<>();
         arr = parserFile(url);
+
+        for(Integer i : arr){
+            System.out.println(i);
+        }
     }
 
     public static String scanUrl(){
@@ -31,5 +35,15 @@ public class Main {
         return url;
     }
 
+    public static List<Integer> parserFile(String url){
+        List<Integer> arr = new ArrayList<>();
+        try(Scanner in = new Scanner(new File(url))){
+            while (in.hasNextInt())
+                arr.add(in.nextInt());
+        }catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        return arr;
+    }
 
 }
