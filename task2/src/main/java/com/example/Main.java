@@ -11,14 +11,9 @@ public class Main {
         String file1 = scanPaths();
         String file2 = scanPaths();
 
-        int[] center = new int[2];
-        int[] radius = new int[2];
+        double[] center = new double[2];
+        double[] radius = new double[2];
         scanFile(file1, center, radius);
-
-        for(int i = 0; i < 2; i++){
-            System.out.println("center[" + i + "] = " + center[i]
-                                + " radius[" + i + "] = " + radius[i]);
-        }
 
         List<Integer> res = logicMain(file2, center, radius);
         for(Integer i : res){
@@ -45,7 +40,7 @@ public class Main {
         return file_url;
     }
 
-    public static void scanFile(String path, int[] center, int[]radius){
+    public static void scanFile(String path, double[] center, double[]radius){
         try(Scanner scanner = new Scanner(new File(path))){
             String line1 = scanner.nextLine();
             String line2 = scanner.nextLine();
@@ -62,7 +57,7 @@ public class Main {
         }
     }
 
-    private static int[] toLineInNumber(int[] array, String[] line){
+    private static double[] toLineInNumber(double[] array, String[] line){
         for(int i = 0; i < 2; i++){
             try {
                 array[i] = Integer.parseInt(line[i]);
@@ -73,16 +68,17 @@ public class Main {
         return array;
     }
 
-    public static List<Integer> logicMain(String file2, int[] center, int[] radius){
+    public static List<Integer> logicMain(String file2, double[] center, double[] radius){
         List<Integer> list = new ArrayList<>();
         try(Scanner in = new Scanner(new File (file2))){
-            while (in.hasNextLine()){
+            int i = 0;
+            while (in.hasNextLine() && (i < 100)){
                 String line = in.nextLine();
-                System.out.println(line);
-                int[] xy = parserLine(line);
+                double[] xy = parserLine(line);
                 list.add(formulaElips(center[0], center[1],
                                         radius[0], radius[1],
                                         xy[0], xy[1]));
+                i++;
             }
         }catch (Exception e){
             System.out.println("Error: " + e.getMessage());
@@ -90,14 +86,14 @@ public class Main {
         return list;
     }
 
-    private static int[] parserLine(String line){
-        int[] arr = new int[2];
+    private static double[] parserLine(String line){
+        double[] arr = new double[2];
         if (!line.isEmpty()) {
             String[] lines = line.split(" ");
             int i = 0;
             for (String s : lines) {
                 try {
-                    arr[i] = (Integer.parseInt(s));
+                    arr[i] = (Double.parseDouble(s));
                     i++;
                 } catch (NumberFormatException e) {
                     System.out.println("Error number format exception: " + e.getMessage());
@@ -107,7 +103,7 @@ public class Main {
         return arr;
     }
 
-    private static Integer formulaElips(int h, int k, int a, int b, int x, int y){
+    private static Integer formulaElips(double h, double k, double a, double b, double x, double y){
         Integer res = -1;
 
         double formula = (Math.pow((x -h), 2) / Math.pow(a, 2) )
